@@ -5,13 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.utils.constants.ViewConstants;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("view/login.fxml"));
-        primaryStage.setTitle("Forum Overflow");
+        Parent root = FXMLLoader.load(getClass().getResource(ViewConstants.LOGIN_VIEW));
+        primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }

@@ -1,7 +1,6 @@
 package sample.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -76,10 +75,9 @@ public class Category {
 
     @Override
     public String toString() {
-        return "ContentStatus { " +
+        return "Category { " +
                 "id = " + id +
                 ", name = " + name +
-                ", posts = " + Arrays.toString(posts.toArray()) +
                 "}";
     }
 }

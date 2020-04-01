@@ -1,7 +1,6 @@
 package sample.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,16 +36,19 @@ public class User {
         // Default constructor
     }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public User(String firstName, String lastName,
-            String username, String email, String password,
-            int blockerCounter, UserStatus userStatus) {
+            String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.blockerCounter = blockerCounter;
-        this.userStatus = userStatus;
+        this.blockerCounter = 0;
         this.posts = new ArrayList<>();
         this.comments = new ArrayList<>();
         this.roles = new ArrayList<>();
@@ -190,10 +192,6 @@ public class User {
                 ", email = " + email  +
                 ", password = " + password +
                 ", blockerCounter = " + blockerCounter +
-                ", userStatus = " + userStatus +
-                ", posts = " + Arrays.toString(posts.toArray()) +
-                ", comments = " + Arrays.toString(comments.toArray()) +
-                ", roles = " + Arrays.toString(roles.toArray()) +
                 "}";
     }
 }

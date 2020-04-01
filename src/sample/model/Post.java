@@ -1,8 +1,8 @@
 package sample.model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,7 +18,7 @@ public class Post {
 
     private String description;
 
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
     private ContentStatus contentStatus;
 
@@ -32,7 +32,7 @@ public class Post {
         // Default constructor
     }
 
-    public Post(String title, String description, LocalDateTime createdDate,
+    public Post(String title, String description, Date createdDate,
             ContentStatus contentStatus, User user, Category category) {
         this.title = title;
         this.description = description;
@@ -67,11 +67,11 @@ public class Post {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -147,10 +147,6 @@ public class Post {
                 ", title = " + title +
                 ", description = " + description +
                 ", createdDate = " + createdDate +
-                ", contentStatus = " + contentStatus +
-                ", user = " + user +
-                ", category = " + category +
-                ", comments=" + Arrays.toString(comments.toArray()) +
                 "}";
     }
 }
