@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.PostController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="41.0" prefHeight="48.0" prefWidth="859.0" text="This is form for creating new post" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <VBox layoutX="14.0" layoutY="121.0" prefHeight="310.0" prefWidth="971.0">
+         <children>
+            <HBox prefHeight="73.0" prefWidth="796.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="74.0" prefWidth="161.0" text="Title:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="titleTextArea" prefHeight="72.0" prefWidth="809.0" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="70.0" prefWidth="971.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="69.0" prefWidth="163.0" text="Description:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="descriptionTextArea" prefHeight="69.0" prefWidth="812.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="72.0" prefWidth="971.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="71.0" prefWidth="161.0" text="Category:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="categoryChoiceBox" prefWidth="250.0">
+                     <HBox.margin>
+                        <Insets top="22.0" />
+                     </HBox.margin>
+                  </ChoiceBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" depthTest="DISABLE" mnemonicParsing="false" onAction="#savePostActionHandler" prefHeight="39.0" prefWidth="110.0" text="Save">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets left="420.0" right="450.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
