@@ -1,7 +1,6 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,13 +13,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import sample.config.RestTemplateConfig;
-import sample.dialog.ErrorDialog;
+import sample.controller.container.StageContainer;
+import sample.dialog.Dialog;
+import sample.dialog.DialogFactory;
 import sample.model.Post;
 import sample.model.User;
 import sample.utils.constants.AppConstants;
@@ -33,7 +31,7 @@ import sample.utils.message.ErrorMessage;
 
 public class HomeController {
 
-    public static final String BASE_URL = "http://localhost:8080/forum-overflow/api/post";
+    public static final String BASE_URL = "http://localhost:8090/forum-overflow/api/post";
 
     @FXML
     private Menu menu;
@@ -43,8 +41,10 @@ public class HomeController {
 
     private User user = new User();
 
+    private DialogFactory dialogFactory = new DialogFactory();
+
     @FXML
-    private void refreshPostListHandler() {
+    private void refreshPostListActionHandler() {
         fetchAllPosts();
     }
 
@@ -65,7 +65,8 @@ public class HomeController {
             List<Post> posts = findAllPosts(restTemplate);
             fillPostsToListView(posts);
         } catch (Exception e) {
-            ErrorDialog.showErrorDialog(ErrorMessage.SOMETHING_WENT_WRONG);
+            Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
+            errorDialog.show(ErrorMessage.SOMETHING_WENT_WRONG);
         }
     }
 
@@ -81,7 +82,6 @@ public class HomeController {
     private void fillPostsToListView(List<Post> posts) {
         ObservableList<Post> data = FXCollections.observableArrayList();
         data.addAll(posts);
-
         postsListView.setItems(data);
     }
 
@@ -90,23 +90,16 @@ public class HomeController {
         try {
              loadAddingPostWindow(user);
         } catch (Exception e) {
-            ErrorDialog.showErrorDialog(ErrorMessage.SOMETHING_WENT_WRONG);
+            Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
+            errorDialog.show(ErrorMessage.SOMETHING_WENT_WRONG);
         }
     }
 
     private void loadAddingPostWindow(User user) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.POST_VIEW));
         Parent parent = fxmlLoader.load();
-        createStageContainer(parent);
+        StageContainer.create(parent);
         transferUserToPostController(fxmlLoader, user);
-    }
-
-    private void createStageContainer(Parent parent) {
-        Stage stage = new Stage();
-        stage.initStyle(StageStyle.DECORATED);
-        stage.setTitle(AppConstants.FORUM_OVERFLOW);
-        stage.setScene(new Scene(parent));
-        stage.show();
     }
 
     private void transferUserToPostController(FXMLLoader fxmlLoader, User loggedInUser) {

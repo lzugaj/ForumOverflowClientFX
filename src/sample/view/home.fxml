@@ -22,7 +22,7 @@
           <AnchorPane minHeight="0.0" minWidth="0.0">
                <children>
                    <Button layoutX="366.0" layoutY="23.0" mnemonicParsing="false" onAction="#showAddingPostPageActionHandler" prefHeight="25.0" prefWidth="120.0" text="Add new post" />
-                   <Button layoutX="500.0" layoutY="23.0" mnemonicParsing="false" onAction="#refreshPostListHandler" prefHeight="25.0" prefWidth="120.0" text="Refresh List" />
+                   <Button layoutX="500.0" layoutY="23.0" mnemonicParsing="false" onAction="#refreshPostListActionHandler" prefHeight="25.0" prefWidth="120.0" text="Refresh List" />
                    <ListView fx:id="postsListView" layoutY="82.0" prefHeight="618.0" prefWidth="981.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                        <cellFactory>
                            <PostCellFactory />

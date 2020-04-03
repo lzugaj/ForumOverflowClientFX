@@ -32,6 +32,13 @@ public class Post {
         // Default constructor
     }
 
+    public Post(User user, Category category, String title, String description) {
+        this.user = user;
+        this.category = category;
+        this.title = title;
+        this.description = description;
+    }
+
     public Post(String title, String description, Date createdDate,
             ContentStatus contentStatus, User user, Category category) {
         this.title = title;
