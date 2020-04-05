@@ -12,7 +12,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <VBox layoutX="14.0" layoutY="121.0" prefHeight="310.0" prefWidth="971.0">
+      <VBox layoutX="14.0" layoutY="121.0" prefHeight="225.0" prefWidth="971.0">
          <children>
             <HBox prefHeight="73.0" prefWidth="796.0">
                <children>
@@ -51,19 +51,17 @@
                   </ChoiceBox>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" depthTest="DISABLE" mnemonicParsing="false" onAction="#savePostActionHandler" prefHeight="39.0" prefWidth="110.0" text="Save">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets left="420.0" right="450.0" />
-               </VBox.margin>
-            </HBox>
          </children>
       </VBox>
+      <Button alignment="CENTER" contentDisplay="CENTER" depthTest="DISABLE" layoutX="404.0" layoutY="373.0" mnemonicParsing="false" onAction="#savePostActionHandler" prefHeight="40.0" prefWidth="110.0" text="Save">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="540.0" layoutY="373.0" mnemonicParsing="false" onAction="#loadHomePageActionHandler" prefHeight="40.0" prefWidth="110.0" text="Go back">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

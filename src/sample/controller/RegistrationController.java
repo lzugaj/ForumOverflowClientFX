@@ -71,11 +71,10 @@ public class RegistrationController {
             User user = saveUser(restTemplate, newUser);
             showHomePageActionHandler(user);
         } catch (HttpClientErrorException.BadRequest | IOException e) {
+            Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
             if (e instanceof HttpClientErrorException.BadRequest) {
-                Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
                 errorDialog.show(ErrorMessage.SIGN_IN_PASSWORD_INCORRECT);
             } else {
-                Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
                 errorDialog.show(ErrorMessage.SOMETHING_WENT_WRONG);
             }
         }

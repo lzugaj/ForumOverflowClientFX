@@ -1,7 +1,8 @@
 package sample.controller;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -14,15 +15,19 @@ import org.springframework.web.client.RestTemplate;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import sample.config.RestTemplateConfig;
+import sample.controller.container.StageContainer;
 import sample.dialog.Dialog;
 import sample.dialog.DialogFactory;
 import sample.model.Category;
 import sample.model.Post;
 import sample.model.User;
 import sample.utils.constants.AppConstants;
+import sample.utils.constants.ViewConstants;
 import sample.utils.message.ErrorMessage;
 import sample.utils.message.SuccessMessage;
 import sample.utils.message.WarningMessage;
@@ -33,7 +38,7 @@ import sample.utils.message.WarningMessage;
 
 public class PostController {
 
-    public static final String BASE_CATEGORY_URL = "http://localhost:8090/forum-overflow/api/category";
+    public static final String GET_ALL_CATEGORIES_URL = "http://localhost:8090/forum-overflow/api/category";
 
     private static final String SAVE_POST_URL = "http://localhost:8090/forum-overflow/api/post";
 
@@ -68,16 +73,13 @@ public class PostController {
     }
 
     private List<Category> findAllCategories(RestTemplate restTemplate) {
-        ResponseEntity<List<Category>> responseEntity = restTemplate.exchange(BASE_CATEGORY_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<Category>>() {});
+        ResponseEntity<List<Category>> responseEntity = restTemplate.exchange(GET_ALL_CATEGORIES_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<Category>>() {});
         return responseEntity.getBody();
     }
     private List<String> mapCategoryNames(List<Category> categories) {
-        List<String> names = new ArrayList<>();
-        for (Category category : categories) {
-            names.add(category.getName());
-        }
-
-        return names;
+        return categories.stream()
+                .map(Category::getName)
+                .collect(Collectors.toList());
     }
 
     @FXML
@@ -96,13 +98,10 @@ public class PostController {
 
     private Category fetchSearchedCategory(String searchedCategory) {
         List<Category> categories = fetchAllCategories();
-        for (Category category : categories) {
-            if (category.getName().equals(searchedCategory)) {
-                return category;
-            }
-        }
-
-        return null;
+        return categories.stream()
+                .filter(category -> category.getName().equals(searchedCategory))
+                .findFirst()
+                .orElse(null);
     }
 
     private boolean isNotEmpty(String value) {
@@ -139,5 +138,28 @@ public class PostController {
     private void showWarningDialog() {
         Dialog warningDialog = dialogFactory.getAlertType(AppConstants.WARNING_DIALOG);
         warningDialog.show(WarningMessage.MISSING_VALUES);
+    }
+
+    @FXML
+    private void loadHomePageActionHandler() {
+        try {
+            User user = currentUser;
+            loadHomePageWindow(user);
+        } catch (Exception e) {
+            Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
+            errorDialog.show(ErrorMessage.SOMETHING_WENT_WRONG);
+        }
+    }
+
+    private void loadHomePageWindow(User user) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.HOME_VIEW));
+        Parent parent = fxmlLoader.load();
+        StageContainer.create(parent);
+        transferInfoToHomeController(fxmlLoader, user);
+    }
+
+    private void transferInfoToHomeController(FXMLLoader fxmlLoader, User user) {
+        HomeController homeController = fxmlLoader.getController();
+        homeController.transferUser(user);
     }
 }
