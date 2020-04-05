@@ -1,7 +1,6 @@
 package sample.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +9,7 @@ import java.util.Objects;
  * Created by lzugaj on Thursday, March 2020
  */
 
-public class Post {
+public class Post implements Comparable<Post> {
 
     private Long id;
 
@@ -30,6 +29,13 @@ public class Post {
 
     public Post() {
         // Default constructor
+    }
+
+    public Post(User user, Category category, String title, String description) {
+        this.user = user;
+        this.category = category;
+        this.title = title;
+        this.description = description;
     }
 
     public Post(String title, String description, Date createdDate,
@@ -148,5 +154,10 @@ public class Post {
                 ", description = " + description +
                 ", createdDate = " + createdDate +
                 "}";
+    }
+
+    @Override
+    public int compareTo(Post other) {
+        return other.getCreatedDate().compareTo(getCreatedDate());
     }
 }

@@ -1,22 +1,20 @@
-package sample.dialog;
+package sample.dialog.type;
 
 import javafx.scene.control.Alert;
+import sample.dialog.Dialog;
 import sample.utils.message.WarningMessage;
 
 /**
  * Created by lzugaj on Friday, March 2020
  */
 
-public abstract class WarningDialog {
+public class WarningDialog implements Dialog {
 
-    private WarningDialog() {
-        // Private constructor
-    }
-
-    public static void showWarningDialog(String warningMessage) {
+    @Override
+    public void show(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(WarningMessage.WARNING);
-        alert.setHeaderText(warningMessage);
+        alert.setHeaderText(message);
         alert.show();
     }
 }

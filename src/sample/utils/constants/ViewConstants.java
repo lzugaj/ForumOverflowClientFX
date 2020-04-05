@@ -16,6 +16,8 @@ public final class ViewConstants {
 
     public static final String POST_VIEW = "../view/post-form.fxml";
 
+    public static final String POST_DETAILS_VIEW = "../view/post-details.fxml";
+
     private ViewConstants() {
         // Private constructor
     }

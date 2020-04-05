@@ -13,14 +13,12 @@ import org.springframework.web.client.RestTemplate;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import sample.config.RestTemplateConfig;
-import sample.dialog.ErrorDialog;
-import sample.dialog.WarningDialog;
+import sample.controller.container.StageContainer;
+import sample.dialog.Dialog;
+import sample.dialog.DialogFactory;
 import sample.model.User;
 import sample.utils.constants.AppConstants;
 import sample.utils.constants.ViewConstants;
@@ -33,7 +31,7 @@ import sample.utils.message.WarningMessage;
 
 public class RegistrationController {
 
-    private static final String SAVE_USER_URL = "http://localhost:8080/forum-overflow/api/user";
+    private static final String SAVE_USER_URL = "http://localhost:8090/forum-overflow/api/user";
 
     @FXML
     private TextField firstNameField;
@@ -49,6 +47,8 @@ public class RegistrationController {
 
     @FXML
     private PasswordField passwordField;
+
+    private DialogFactory dialogFactory = new DialogFactory();
 
     @FXML
     public void signUpActionHandler() {
@@ -71,10 +71,11 @@ public class RegistrationController {
             User user = saveUser(restTemplate, newUser);
             showHomePageActionHandler(user);
         } catch (HttpClientErrorException.BadRequest | IOException e) {
+            Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
             if (e instanceof HttpClientErrorException.BadRequest) {
-                ErrorDialog.showErrorDialog(ErrorMessage.SIGN_IN_PASSWORD_INCORRECT);
+                errorDialog.show(ErrorMessage.SIGN_IN_PASSWORD_INCORRECT);
             } else {
-                ErrorDialog.showErrorDialog(ErrorMessage.SOMETHING_WENT_WRONG);
+                errorDialog.show(ErrorMessage.SOMETHING_WENT_WRONG);
             }
         }
     }
@@ -98,16 +99,8 @@ public class RegistrationController {
     private void showHomePageActionHandler(User searchedUser) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.HOME_VIEW));
         Parent parent = fxmlLoader.load();
-        createStageContainer(parent);
+        StageContainer.create(parent);
         transferUserToHomeController(fxmlLoader, searchedUser);
-    }
-
-    private void createStageContainer(Parent parent) {
-        Stage stage = new Stage();
-        stage.initStyle(StageStyle.DECORATED);
-        stage.setTitle(AppConstants.FORUM_OVERFLOW);
-        stage.setScene(new Scene(parent));
-        stage.show();
     }
 
     private void transferUserToHomeController(FXMLLoader fxmlLoader, User searchedUser) {
@@ -116,6 +109,7 @@ public class RegistrationController {
     }
 
     private void showWarningDialog() {
-        WarningDialog.showWarningDialog(WarningMessage.SIGN_UP_MISSING_VALUES);
+        Dialog warningDialog = dialogFactory.getAlertType(AppConstants.WARNING_DIALOG);
+        warningDialog.show(WarningMessage.MISSING_VALUES);
     }
 }

@@ -9,14 +9,12 @@ import org.springframework.web.client.RestTemplate;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import sample.config.RestTemplateConfig;
-import sample.dialog.ErrorDialog;
-import sample.dialog.WarningDialog;
+import sample.controller.container.StageContainer;
+import sample.dialog.Dialog;
+import sample.dialog.DialogFactory;
 import sample.model.User;
 import sample.utils.constants.AppConstants;
 import sample.utils.constants.ViewConstants;
@@ -30,6 +28,8 @@ public class LoginController {
 
     @FXML
     private PasswordField passwordField;
+
+    private DialogFactory dialogFactory = new DialogFactory();
 
     @FXML
     private void signInActionHandler() {
@@ -45,16 +45,19 @@ public class LoginController {
     private void signInProcess(String username, String password) {
         RestTemplate restTemplate = restTemplateConfig();
         try {
-            String searchedUserURL = "http://localhost:8080/forum-overflow/api/user/search/username/" + username + "/password/" + password; // TODO: This is bad!
+            String searchedUserURL = "http://localhost:8090/forum-overflow/api/user/search/username/" + username + "/password/" + password;
             User searchedUser = findUserByCredentials(restTemplate, searchedUserURL);
             showHomePageActionHandler(searchedUser);
         } catch (IOException | HttpClientErrorException.BadRequest | HttpClientErrorException.NotFound e) {
             if (e instanceof HttpClientErrorException.BadRequest) {
-                ErrorDialog.showErrorDialog(ErrorMessage.SIGN_IN_PASSWORD_INCORRECT);
+                Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
+                errorDialog.show(ErrorMessage.SIGN_IN_PASSWORD_INCORRECT);
             } else if (e instanceof HttpClientErrorException.NotFound) {
-                WarningDialog.showWarningDialog(WarningMessage.SIGN_IN_USER_NOT_FOUND);
+                Dialog warningDialog = dialogFactory.getAlertType(AppConstants.WARNING_DIALOG);
+                warningDialog.show(WarningMessage.SIGN_IN_USER_NOT_FOUND);
             } else {
-                ErrorDialog.showErrorDialog(ErrorMessage.SOMETHING_WENT_WRONG);
+                Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
+                errorDialog.show(ErrorMessage.SOMETHING_WENT_WRONG);
             }
         }
     }
@@ -71,7 +74,7 @@ public class LoginController {
     private void showHomePageActionHandler(User searchedUser) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.HOME_VIEW));
         Parent parent = fxmlLoader.load();
-        createStageContainer(parent);
+        StageContainer.create(parent);
         transferUserToHomeController(fxmlLoader, searchedUser);
     }
 
@@ -81,7 +84,8 @@ public class LoginController {
     }
 
     private void showWarningDialog() {
-        WarningDialog.showWarningDialog(WarningMessage.SIGN_IN_MISSING_VALUES);
+        Dialog warningDialog = dialogFactory.getAlertType(AppConstants.WARNING_DIALOG);
+        warningDialog.show(WarningMessage.MISSING_VALUES);
     }
 
     private boolean isNotEmpty(String value) {
@@ -93,21 +97,14 @@ public class LoginController {
         try {
             loadRegistrationWindow();
         } catch (Exception e) {
-            ErrorDialog.showErrorDialog(ErrorMessage.SOMETHING_WENT_WRONG);
+            Dialog errorDialog = dialogFactory.getAlertType(AppConstants.ERROR_DIALOG);
+            errorDialog.show(ErrorMessage.SOMETHING_WENT_WRONG);
         }
     }
 
     private void loadRegistrationWindow() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.REGISTRATION_VIEW));
         Parent parent = fxmlLoader.load();
-        createStageContainer(parent);
-    }
-
-    private void createStageContainer(Parent parent) {
-        Stage stage = new Stage();
-        stage.initStyle(StageStyle.DECORATED);
-        stage.setTitle(AppConstants.FORUM_OVERFLOW);
-        stage.setScene(new Scene(parent));
-        stage.show();
+        StageContainer.create(parent);
     }
 }
