@@ -38,9 +38,9 @@ import sample.utils.message.WarningMessage;
 
 public class PostController {
 
-    public static final String GET_ALL_CATEGORIES_URL = "http://localhost:8090/forum-overflow/api/category";
+    public static final String GET_ALL_CATEGORIES_URL = "http://localhost:8090/forum-overflow/api/v1/category";
 
-    private static final String SAVE_POST_URL = "http://localhost:8090/forum-overflow/api/post";
+    private static final String SAVE_POST_URL = "http://localhost:8090/forum-overflow/api/v1/post";
 
     @FXML
     private TextArea titleTextArea;

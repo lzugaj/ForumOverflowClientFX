@@ -31,7 +31,7 @@ import sample.utils.message.WarningMessage;
 
 public class RegistrationController {
 
-    private static final String SAVE_USER_URL = "http://localhost:8090/forum-overflow/api/user";
+    private static final String SAVE_USER_URL = "http://localhost:8090/forum-overflow/api/v1/user";
 
     @FXML
     private TextField firstNameField;
