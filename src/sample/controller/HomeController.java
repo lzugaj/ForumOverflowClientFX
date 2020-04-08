@@ -34,7 +34,7 @@ import sample.utils.message.ErrorMessage;
 
 public class HomeController {
 
-    public static final String GET_ALL_POSTS_URL = "http://localhost:8090/forum-overflow/api/post";
+    public static final String GET_ALL_POSTS_URL = "http://localhost:8090/forum-overflow/api/v1/post";
 
     @FXML
     private Menu menu;
@@ -152,5 +152,23 @@ public class HomeController {
     private void transferPostToPostDetailsController(FXMLLoader fxmlLoader, Post post) {
         PostDetailsController postDetailsController = fxmlLoader.getController();
         postDetailsController.transferPost(post);
+    }
+
+    @FXML
+    private void loadUserProfileDetailsActionHandler() throws IOException {
+        User currentUser = user;
+        loadUserProfileDetails(currentUser);
+    }
+
+    private void loadUserProfileDetails(User currentUser) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.USER_PROFILE_VIEW));
+        Parent parent = fxmlLoader.load();
+        StageContainer.create(parent);
+        transferUserToUserProfileWindow(fxmlLoader, currentUser);
+    }
+
+    private void transferUserToUserProfileWindow(FXMLLoader fxmlLoader, User currentUser) {
+        UserProfileController userProfileController = fxmlLoader.getController();
+        userProfileController.transferUser(currentUser);
     }
 }

@@ -45,7 +45,7 @@ public class LoginController {
     private void signInProcess(String username, String password) {
         RestTemplate restTemplate = restTemplateConfig();
         try {
-            String searchedUserURL = "http://localhost:8090/forum-overflow/api/user/search/username/" + username + "/password/" + password;
+            String searchedUserURL = "http://localhost:8090/forum-overflow/api/v1/user/search/username/" + username + "/password/" + password;
             User searchedUser = findUserByCredentials(restTemplate, searchedUserURL);
             showHomePageActionHandler(searchedUser);
         } catch (IOException | HttpClientErrorException.BadRequest | HttpClientErrorException.NotFound e) {

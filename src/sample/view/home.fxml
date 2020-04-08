@@ -10,7 +10,7 @@
         <menus>
           <Menu fx:id="menu" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="My Profile" />
+              <MenuItem mnemonicParsing="false" onAction="#loadUserProfileDetailsActionHandler" text="My Profile" />
             </items>
           </Menu>
         </menus>
