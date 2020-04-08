@@ -20,6 +20,8 @@ public final class ViewConstants {
 
     public static final String USER_PROFILE_VIEW = "../view/user-profile.fxml";
 
+    public static final String USER_PROFILE_POST_DETAILS_VIEW = "../view/user-profile-post-details.fxml";
+
     private ViewConstants() {
         // Private constructor
     }

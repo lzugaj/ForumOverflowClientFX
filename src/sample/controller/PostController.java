@@ -76,6 +76,7 @@ public class PostController {
         ResponseEntity<List<Category>> responseEntity = restTemplate.exchange(GET_ALL_CATEGORIES_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<Category>>() {});
         return responseEntity.getBody();
     }
+
     private List<String> mapCategoryNames(List<Category> categories) {
         return categories.stream()
                 .map(Category::getName)

@@ -26,6 +26,7 @@ import sample.model.User;
 import sample.utils.constants.AppConstants;
 import sample.utils.constants.ViewConstants;
 import sample.utils.message.ErrorMessage;
+import sample.utils.message.SuccessMessage;
 
 /**
  * Created by lzugaj on Sunday, April 2020
@@ -54,6 +55,15 @@ public class UserProfileController {
         userProfileNameLabel.setText(userCredentialsFormatter(user));
         userEmailLabel.setText(user.getEmail());
         fetchAllUserPosts(user);
+    }
+
+    public void transferUserWithMessage(User user, Post deletedPost) {
+        userProfileNameLabel.setText(userCredentialsFormatter(user));
+        userEmailLabel.setText(user.getEmail());
+        fetchAllUserPosts(user);
+
+        Dialog successDialog = dialogFactory.getAlertType(AppConstants.SUCCESS_DIALOG);
+        successDialog.show(SuccessMessage.SUCCESSFULLY_DELETED_POST + deletedPost.getId());
     }
 
     private String userCredentialsFormatter(User user) {
@@ -114,5 +124,23 @@ public class UserProfileController {
     private void transferInfoToHomeController(FXMLLoader fxmlLoader, User user) {
         HomeController homeController = fxmlLoader.getController();
         homeController.transferUser(user);
+    }
+
+    @FXML
+    private void selectItemActionHandler() throws IOException {
+        Post selectedPost = userPostsListView.getSelectionModel().getSelectedItem();
+        loadPostDetailsWindow(selectedPost);
+    }
+
+    private void loadPostDetailsWindow(Post selectedPost) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.USER_PROFILE_POST_DETAILS_VIEW));
+        Parent parent = fxmlLoader.load();
+        StageContainer.create(parent);
+        transferPostToPostDetailsController(fxmlLoader, selectedPost);
+    }
+
+    private void transferPostToPostDetailsController(FXMLLoader fxmlLoader, Post post) {
+        UserProfilePostDetailsController userProfilePostDetailsController = fxmlLoader.getController();
+        userProfilePostDetailsController.transferPost(post);
     }
 }
